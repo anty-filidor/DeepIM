@@ -254,11 +254,14 @@ class InverseProblemDataset(torch.utils.data.Dataset):
         return len(self.data)
 
 def diffusion_evaluation(adj_matrix, seed, diffusion='LT'):
+    """Evaluate on arbitrary selected model's parameters!"""
 
     total_infect = 0
-    G = nx.from_scipy_sparse_matrix(adj_matrix)
-    
-    for i in range(10):
+    num_experiments = 10
+    G = nx.from_scipy_sparse_array(adj_matrix)
+    print(f"Seed set length: {len(seed)/{len(G.nodes)}}, experiments num: {num_experiments}")
+
+    for i in range(num_experiments):
         
         if diffusion == 'LT':
             model = ep.ThresholdModel(G)
@@ -296,5 +299,8 @@ def diffusion_evaluation(adj_matrix, seed, diffusion='LT'):
         inf_vec[inf_vec == 2] = 1
 
         total_infect += inf_vec.sum()
-    
-    return total_infect/10
+
+    mean_inf_nodes = total_infect / num_experiments
+    print(f"Mean influenced nodes number: {mean_inf_nodes}")
+
+    return mean_inf_nodes
