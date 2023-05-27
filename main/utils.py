@@ -259,7 +259,7 @@ def diffusion_evaluation(adj_matrix, seed, diffusion='LT'):
     total_infect = 0
     num_experiments = 10
     G = nx.from_scipy_sparse_array(adj_matrix)
-    print(f"Seed set length: {len(seed)/{len(G.nodes)}}, experiments num: {num_experiments}")
+    print(f"Seed set length: {len(seed)}/{len(G.nodes)}, experiments num: {num_experiments}")
 
     for i in range(num_experiments):
         
